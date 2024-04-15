@@ -1,6 +1,4 @@
-#include <iostream>
-
 int main() {
-    std::cerr << "%d" << 2/0 << std::endl;
+    1/0;
     return 0;
 }
