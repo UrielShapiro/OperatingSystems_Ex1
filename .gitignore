@@ -2,7 +2,8 @@
 *.swp
 
 # compiler outputs
-*.o *.so
+*.o
+*.so
 
 # question executables
 Q2/Poisson
