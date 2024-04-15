@@ -1,5 +1,9 @@
 # vim swap files
 *.swp
 
+# compiler outputs
+*.o *.so
+
 # question executables
 Q2/Poisson
+Q3/main
