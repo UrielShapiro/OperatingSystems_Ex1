@@ -14,13 +14,13 @@ bool add(std::string name, std::string num)
 	// echo $(name) , $(num) | tee --append $(PB_FILEPATH) > /dev/null
 	// this will write the entry, append it into the phonebook, and throw the output of `tee` to the black hole
 
-	int pipefds[2];	// create a pipe to put between `echo` and `tee`
-	pipe(pipefds);
+	int pipe_echo_to_tee[2];	// create a pipe to put between `echo` and `tee`
+	pipe(pipe_echo_to_tee);
 	
 	// fork to run `echo`
 	if (fork() == 0)
 	{
-		dup2(pipefds[1], STDOUT_FILENO);	// set the output of echo to go into the pipe's write-end
+		dup2(pipe_echo_to_tee[1], STDOUT_FILENO);	// set the output of echo to go into the pipe's write-end
 		execlp("echo", "echo", name.c_str(), ",", num.c_str(), (char *) NULL);	// execute the echo
 
 	}
@@ -28,7 +28,7 @@ bool add(std::string name, std::string num)
 	// fork to run `tee`
 	if (fork() == 0)
 	{
-		dup2(pipefds[0], STDIN_FILENO);	// set the read-end of the pipe as the input of tee
+		dup2(pipe_echo_to_tee[0], STDIN_FILENO);	// set the read-end of the pipe as the input of tee
 		dup2(open("/dev/null", O_WRONLY), STDOUT_FILENO);	// set the output of tee to /dev/null to throw away
 		execlp("tee", "tee", "--append", PB_FILEPATH, (char *) NULL);	// execute tee
 	}
