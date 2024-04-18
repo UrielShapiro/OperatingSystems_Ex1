@@ -1,5 +1,5 @@
 CPP = g++
-CPP_FLAGS = -Wall -Wextra -lm
+CPP_FLAGS = -Wall -Wextra -lm -ggdb
 MAIN = main
 LIB = libpoisson
 

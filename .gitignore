@@ -6,6 +6,9 @@
 *.so
 
 # question executables
+Q1/DivisionByZeroException
+Q1/StackOverflowException
+Q1/UndefinedMemoryException
 Q2/Poisson
 Q3/main
 Q6/add2PB
