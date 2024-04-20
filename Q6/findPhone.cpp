@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	}
 
 	std::string name(argv[1]);
-	std::cout << name << "'s phone number is: " << std::flush;
+	std::cout << "Found number(s) for names matching \"" << name << "\": " << std::flush;
 	print_number(name);
 	return 0;
 }
