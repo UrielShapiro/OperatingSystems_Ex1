@@ -20,7 +20,6 @@ void input_graph(vector<vector<int>> &graph)
         }
         size_t col = 0;
         char input;
-        cout << "mat_len: "<< mat_len << endl;
         cout << "Enter the weight of the edges from vertice " << row << ": " << endl; // Prompting the user to enter the weights of the edges
         cin.clear();                                                                  // Clearing the input buffer
         while ((input = cin.get()) != '\n')                                           // Looping through the input until the user presses enter ('\n')
@@ -40,13 +39,13 @@ void input_graph(vector<vector<int>> &graph)
             }
             if (col == row && weight != 0) // Checking if the distance between a vertice and itself is 0.
             {
-                throw invalid_argument{"Error: the weight of the edge between vertice " +to_string(row) + " and itself must be 0!\n"};
+                throw invalid_argument{"Error: the weight of the edge between vertice " + to_string(row) + " and itself must be 0!\n"};
             }
             graph.at(row).push_back(weight); // Storing the weight at graph[row][col]
             col++;
         }
-        if(row != 0 && col < mat_len) // If the amount of weights (edges) entered is less than the amount of vertices,
-        {                             // an error will be thrown.
+        if (row != 0 && col < mat_len) // If the amount of weights (edges) entered is less than the amount of vertices,
+        {                              // an error will be thrown.
             throw length_error{"Error: the amount of weights entered is less than the amount of vertices!"};
         }
     }
@@ -55,21 +54,22 @@ void input_graph(vector<vector<int>> &graph)
 /*
 A function to print the array which stores the shortest distance from the source to each vertice in the graph.
 */
-void printSolution(vector<int> dist)
+string printSolution(vector<int> dist)
 {
-    cout << "Vertex\tDistance from Source" << endl;
+    string output = "";
+    output += "Vertex\tDistance from Source\n";
     for (size_t i = 0; i < dist.size(); i++)
     {
         if (dist[i] == INT_MAX) // If dist[i] was not updated, then the vertice is not connected to the source.
         {
-            cout << i << "\t"
-                 << "Not Connected" << endl;
+            output += to_string(i) + "\tNot Connected\n";
         }
         else
         {
-            cout << i << "\t" << dist[i] << endl;
+            output += to_string(i) + "\t" + to_string(dist[i]) + "\n";
         }
     }
+    return output;
 }
 
 /*
@@ -83,10 +83,10 @@ int MinNeighbor(vector<int> dist, vector<bool> converged)
     for (size_t vertex_i = 0; vertex_i < dist.size(); vertex_i++) // Looping through the vertices
         if (converged[vertex_i] == false && dist[vertex_i] <= min)
         {
-            min = dist[vertex_i];   // The unvisited neighbor with the minimum distance from the source is stored in min.
-            min_index = vertex_i;   // Updating min_index to the index of the neighbor with the minimum distance from the source.
+            min = dist[vertex_i]; // The unvisited neighbor with the minimum distance from the source is stored in min.
+            min_index = vertex_i; // Updating min_index to the index of the neighbor with the minimum distance from the source.
         }
-    return min_index;               // After iterating through all the vertices, the index of the neighbor with the minimum distance from the source is returned.
+    return min_index; // After iterating through all the vertices, the index of the neighbor with the minimum distance from the source is returned.
 }
 /*
 A function that checks if a vertex should be relaxed or not.
@@ -102,7 +102,7 @@ bool shouldRelax(int u, int v, int weight, vector<int> dist)
 
 // Function that implements Dijkstra's single source shortest path algorithm
 // for a graph represented using adjacency matrix representation
-void dijkstra(vector<vector<int>> graph, int src)
+vector<int> dijkstra(vector<vector<int>> graph, int src)
 {
     vector<int> dist; // The output array.  dist[i] will hold the
                       // shortest distance from src to i
@@ -141,48 +141,5 @@ void dijkstra(vector<vector<int>> graph, int src)
             }
     }
 
-    // print the constructed distance array
-    printSolution(dist);
-}
-
-int main()
-{
-    vector<vector<int>> graph = {{}};
-    input_graph(graph);
-    dijkstra(graph, 0);
-
-    // std::cout << "Enter the amount of vertices: " << std::endl;
-    // int V;
-    // std::cin >> V;
-
-    // int graph[V][V];
-
-    // for (size_t i = 0; i < V; i++)
-    // {
-    //     for (size_t j = 0; j < V; j++)
-    //     {
-    //         std::cout << "Enter the weight of the edge between vertice " << i << "to vertice " << j << ": " << std::endl;
-    //         int weight;
-    //         std::cin >> weight;
-    //         if(weight < 0)
-    //         {
-    //             std::cout << "Error: weight must be a positive number!" << std::endl;
-    //             return 1;
-    //         }
-    //         graph[i][j] = weight;
-    //     }
-    // }
-
-    // for (size_t i = 0; i < V; i++)
-    // {
-    //     if(graph[i][i] != 0)
-    //     {
-    //         std::cout << "Error: the weight of the edge between vertice " << i << " and itself must be 0!" << std::endl;
-    //         return 1;
-    //     }
-    // }
-
-    // dijkstra(V, graph, 0);
-
-    return 0;
+    return dist;
 }

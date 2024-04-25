@@ -1,7 +1,3 @@
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 #include "Test.cpp"
-
-int main()
-{
-    Test::run();
-    return 0;
-}
