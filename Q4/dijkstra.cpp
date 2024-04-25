@@ -20,6 +20,7 @@ void input_graph(vector<vector<int>> &graph)
         }
         size_t col = 0;
         char input;
+        cout << "mat_len: "<< mat_len << endl;
         cout << "Enter the weight of the edges from vertice " << row << ": " << endl; // Prompting the user to enter the weights of the edges
         cin.clear();                                                                  // Clearing the input buffer
         while ((input = cin.get()) != '\n')                                           // Looping through the input until the user presses enter ('\n')
@@ -29,23 +30,24 @@ void input_graph(vector<vector<int>> &graph)
                 continue;
             }
             if (col >= mat_len) // If the amount of weights (edges) entered is more than the amount of vertices,
-            {                   // an error will be printed and the program exits.
-                cerr << "Error: the amount of weights entered is not equal to the amount of vertices!" << endl;
-                exit(1);
+            {                   // an error will be thrown.
+                throw out_of_range{"Error: the amount of weights entered is more than the amount of vertices!"};
             }
             int weight = input - '0'; // Parsing the input to an integer
             if (weight < 0)           // Negative weights are not allowed.
             {                         // If a negative weight is entered, an error will be printed and the program exits.
-                cerr << "Error: weight must be a positive number! but it is: " << weight << endl;
-                exit(1);
+                throw invalid_argument{"Error: weight must be a positive number! but it is: " + to_string(weight) + "\n"};
             }
             if (col == row && weight != 0) // Checking if the distance between a vertice and itself is 0.
             {
-                cerr << "Error: the weight of the edge between vertice " << row << " and itself must be 0!" << endl;
-                exit(1);
+                throw invalid_argument{"Error: the weight of the edge between vertice " +to_string(row) + " and itself must be 0!\n"};
             }
             graph.at(row).push_back(weight); // Storing the weight at graph[row][col]
             col++;
+        }
+        if(row != 0 && col < mat_len) // If the amount of weights (edges) entered is less than the amount of vertices,
+        {                             // an error will be thrown.
+            throw length_error{"Error: the amount of weights entered is less than the amount of vertices!"};
         }
     }
 }
