@@ -1,0 +1,6 @@
+How to run gcov:
+
+1. run make.
+2. run ./test
+3. run gcov libdijkstra.cpp
+4. run cat libdijkstra.cpp.gcov to see which lines were not executed.

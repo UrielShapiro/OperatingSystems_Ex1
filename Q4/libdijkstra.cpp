@@ -78,7 +78,8 @@ Assuming that that neighbor was not visited yet.
 */
 int MinNeighbor(vector<int> dist, vector<bool> converged)
 {
-    int min = INT_MAX, min_index;
+    int min = INT_MAX;
+    int min_index = -1; // Initializing it to -1 to avoid any errors when returning (uninitialized value otherwise).
 
     for (size_t vertex_i = 0; vertex_i < dist.size(); vertex_i++) // Looping through the vertices
         if (converged[vertex_i] == false && dist[vertex_i] <= min)
