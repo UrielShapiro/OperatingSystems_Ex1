@@ -8,6 +8,13 @@ DOCTEST_PATH = . # path to doctest.h is in the current directory
 
 all: $(MAIN) $(TEST_MAIN)
 
+run: run.o
+	$(CXX) $(CXXFLAGS) -o $@ $^
+	./run
+
+run.o: run.cpp
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
 $(MAIN): $(MAIN).o $(LIB).o
 	$(CXX) $(CXXFLAGS) -o $@ $^ -lgcov
 
@@ -50,7 +57,7 @@ TestMain.o: TestMain.cpp
 # 	$(CC) $(CPP_FLAGS) -c -o $@ $<
 
 clean:
-	rm -f *.o *.so *.gcov *.gcda *.gcno $(MAIN) $(TEST_MAIN)
+	rm -f *.o *.so *.gcov *.gcda *.gcno $(MAIN) $(TEST_MAIN) run
 
 .SUFFIXES:
 .PHONY: all clean
