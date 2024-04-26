@@ -3,11 +3,11 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <cstdlib>
-#include <sstream>
-#include <climits>
-#include <algorithm> //To use std::min_element
-#include <set> //To use std::set in MinNeighbor
+#include <cstdlib>  //To use rand()
+#include <sstream>  //To use istringstream
+#include <climits>  //To use INT_MAX
+#include <algorithm>//To use std::min_element
+#include <set>      //To use set in MinNeighbor
 
 using namespace std;
 
@@ -27,51 +27,33 @@ TEST_CASE("Test inputGraph - Valid input")
     CHECK(graph[2][1] == 3);
     CHECK(graph[2][2] == 0);
 
-    // vector<vector<int>> graph2 = {{}};
-    // vector<int> ans;
-    // size_t mat_size = (size_t)(rand() % 50);
-    // cout << "mat_size: " << mat_size << endl;
-    // for (size_t i = 0; i < mat_size; i++)
-    // {
-    //     for (size_t j = 0; j < mat_size; j++)
-    //     {
-    //         char c = toascii(48 + rand() % 10); // Random number between 0 and 9
-    //         if (i == j)
-    //         {
-    //             ans.push_back(0);
-    //         }
-    //         else
-    //         {
-    //             ans.push_back(c - '0');
-    //             if (ans[i * mat_size + j] < 0)
-    //             {
-    //                 cout << "ans: " << toascii(ans[i * mat_size + j]) << endl;
-    //             }
-    //         }
-    //         ans.push_back(' ');
-    //     }
-    //     ans.push_back('\n');
-    // }
-
-    // string str(ans.begin(), ans.end()); // Convert the vector to a string
-    // cout << str << endl;
-    // istringstream input2(str); // Create an input stream from the string
-    // cin.rdbuf(input2.rdbuf()); // Redirect cin to our input stream
-    // input_graph(graph2);
-    // for (size_t i = 0; i < mat_size; i++)
-    // {
-    //     for (size_t j = 0; j < mat_size; j++)
-    //     {
-    //         CHECK(graph2[i][j] == ans[i * mat_size + j]);
-    //     }
-    // }
+    vector<vector<int>> graph2 = {{}};
+    istringstream input2("0 1 2 3\n1 0 3 4\n2 3 0 5\n3 4 5 0\n");
+    cin.rdbuf(input2.rdbuf()); 
+    input_graph(graph2);
+    CHECK(graph2[0][0] == 0);
+    CHECK(graph2[0][1] == 1);
+    CHECK(graph2[0][2] == 2);
+    CHECK(graph2[0][3] == 3);
+    CHECK(graph2[1][0] == 1);
+    CHECK(graph2[1][1] == 0);
+    CHECK(graph2[1][2] == 3);
+    CHECK(graph2[1][3] == 4);
+    CHECK(graph2[2][0] == 2);
+    CHECK(graph2[2][1] == 3);
+    CHECK(graph2[2][2] == 0);
+    CHECK(graph2[2][3] == 5);
+    CHECK(graph2[3][0] == 3);
+    CHECK(graph2[3][1] == 4);
+    CHECK(graph2[3][2] == 5);
+    CHECK(graph2[3][3] == 0);
 }
 
 TEST_CASE("Test inputGraph - Negative weight")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 -1 2\n1 0 3\n2 3 0\n");
-    std::cin.rdbuf(input.rdbuf()); // Redirect cin to our input stream
+    std::cin.rdbuf(input.rdbuf()); 
     CHECK_THROWS_AS(input_graph(graph), invalid_argument);
 }
 
@@ -79,7 +61,7 @@ TEST_CASE("Test inputGraph - Weighted vertice")
 {
     vector<vector<int>> graph = {{}};
     istringstream input("1 1 2\n1 0 3\n2 3 0\n");
-    cin.rdbuf(input.rdbuf()); // Redirect cin to our input stream
+    cin.rdbuf(input.rdbuf()); 
     CHECK_THROWS_AS(input_graph(graph), invalid_argument);
 }
 
@@ -87,7 +69,7 @@ TEST_CASE("Test inputGraph - Too less vertices")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 1 2 3\n1 0 3\n2 3 0\n");
-    std::cin.rdbuf(input.rdbuf()); // Redirect cin to our input stream
+    std::cin.rdbuf(input.rdbuf()); 
     CHECK_THROWS_AS(input_graph(graph), length_error);
 }
 
@@ -95,17 +77,17 @@ TEST_CASE("Test inputGraph - Too much vertices")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 1\n1 0 3\n2 3 0\n");
-    std::cin.rdbuf(input.rdbuf()); // Redirect cin to our input stream
+    std::cin.rdbuf(input.rdbuf()); 
     CHECK_THROWS_AS(input_graph(graph), out_of_range);
 }
 
-TEST_CASE("Test dijkstra - Valid input")
+TEST_CASE("Test dijkstra")
 {
     vector<vector<int>> graph = {
         {0, 1, 2},
         {1, 0, 3},
         {2, 3, 0}};
-    vector<int> dist = dijkstra(graph, 0);
+    vector<int> dist(dijkstra(graph, 0));
     CHECK(dist[0] == 0);
     CHECK(dist[1] == 1);
     CHECK(dist[2] == 2);
@@ -116,7 +98,7 @@ TEST_CASE("Test dijkstra - Valid input")
         {2, 3, 0, 5},
         {3, 4, 5, 0}};
 
-    vector<int> dist2 = dijkstra(graph2, 0);
+    vector<int> dist2(dijkstra(graph2, 0));
     CHECK(dist2[0] == 0);
     CHECK(dist2[1] == 1);
     CHECK(dist2[2] == 2);
@@ -145,10 +127,9 @@ TEST_CASE("Test dijkstra - Valid input")
     {
         graph3.at(amount - (amount % 5)).at(i) = INT_MAX;
     }
-    vector<int> dist3 = dijkstra(graph3, 0);
+    vector<int> dist3(dijkstra(graph3, 0));
     CHECK(dist3.at(amount - (amount % 5)) == INT_MAX);
 }
-
 TEST_CASE("Test PrintSolution")
 {
     vector<int> dist = {0, 1, 2};
@@ -201,7 +182,7 @@ TEST_CASE("Test MinNeighbor")
 {
     vector<int> dist = {0, 1, 2};
     vector<bool> converged = {false, false, false};
-    CHECK(MinNeighbor(dist, converged) == 0);
+    CHECK(MinNeighbor(dist, converged) == 0);   // The minimum neighbor is the src.
 
     // Test with a random amount of vertices which are all connected.
     size_t amount = (size_t)(rand() % 50) + 5;
@@ -223,6 +204,8 @@ TEST_CASE("Test MinNeighbor")
         }
     }
     auto iterator = std::min_element(dist2.begin(), dist2.end());   // Find the minimum element in the vector (get an iterator to that position)
-    int minIndex = std::distance(dist2.begin(), iterator);          // Get the index of the minimum element by calculating the distance between the beginning of the vector and the iterator
+    
+    int minIndex = std::distance(dist2.begin(), iterator);          // Get the index of the minimum element by calculating the distance 
+                                                                    // between the beginning of the vector and the iterator
     CHECK(MinNeighbor(dist2, converged2) == minIndex);
 }

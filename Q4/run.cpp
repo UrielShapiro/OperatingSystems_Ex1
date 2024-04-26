@@ -1,7 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 /*
-    * This file is used to run the test cases and generate the gcov report.
+    This file is used to run the test cases, generate the gcov report and print the libdijkstra.cpp.gcov file.
+    After running, the program will delete all executalbes and object files (as specified in the Makefile "clean").
 */
 int main()
 {
