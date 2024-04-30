@@ -1,7 +1,9 @@
 #include <iostream>
 #include <climits>
 #include <vector>
-using namespace std;
+
+using std::vector;
+
 /*
 A function that receives a graph represented as an adjacency matrix (line by line) and stores it in a 2D vector.
 The function checks if the input is valid and thros an exception if it is not.
@@ -20,9 +22,9 @@ void input_graph(vector<vector<int>> &graph)
         }
         size_t col = 0;
         char input;
-        cin.clear();                                                                  // Clearing the input buffer before each iteration.
-        cout << "Enter the weight of the edges from vertice " << row << ": " << endl; // Prompting the user to enter the weights of the edges
-        while ((input = cin.get()) != '\n')                                           // Iterating through the input until the user presses enter ('\n')
+        std::cin.clear();                                                                  // Clearing the input buffer before each iteration.
+        std::cout << "Enter the weight of the edges from vertice " << row << ": " << std::endl; // Prompting the user to enter the weights of the edges
+        while ((input = std::cin.get()) != '\n')                                           // Iterating through the input until the user presses enter ('\n')
         {
             if (input == ' ' || isalpha(input)) // If the input is a space/letter/NaN, it will be ignored.
             {
@@ -30,23 +32,23 @@ void input_graph(vector<vector<int>> &graph)
             }
             if (col >= mat_len) // If the amount of weights (edges) entered is more than the amount of vertices,
             {                   // an error will be thrown.
-                throw out_of_range{"Error: the amount of weights entered is more than the amount of vertices!"};
+                throw std::out_of_range{"Error: the amount of weights entered is more than the amount of vertices!"};
             }
             int weight = input - '0'; // Parsing the input to an integer
             if (weight < 0)           // Negative weights are not allowed.
             {                         // If a negative weight is entered, an exception will be thrown.
-                throw invalid_argument{"Error: weight must be a positive number! but it is: " + to_string(weight) + "\n"};
+                throw std::invalid_argument{"Error: weight must be a positive number! but it is: " + std::to_string(weight) + "\n"};
             }
             if (col == row && weight != 0) // Checking if the distance between a vertice and itself isn't 0.
             {
-                throw invalid_argument{"Error: the weight of the edge between vertice " + to_string(row) + " and itself must be 0!\n"};
+                throw std::invalid_argument{"Error: the weight of the edge between vertice " + std::to_string(row) + " and itself must be 0!\n"};
             }
             graph.at(row).push_back(weight); // Storing the given weight at graph[row][col]
             col++;
         }
         if (row != 0 && col < mat_len) // If the amount of weights (edges) entered is less than the amount of vertices,
         {                              // an error will be thrown.
-            throw length_error{"Error: the amount of weights entered is less than the amount of vertices!"};
+            throw std::length_error{"Error: the amount of weights entered is less than the amount of vertices!"};
         }
     }
 }
@@ -54,19 +56,19 @@ void input_graph(vector<vector<int>> &graph)
 /*
 A function to print the array which stores the shortest distance from the source to each vertice in the graph.
 */
-string printSolution(vector<int> dist)
+std::string printSolution(vector<int> dist)
 {
-    string output = "";
+    std::string output = "";
     output += "Vertex\tDistance from Source\n";
     for (size_t i = 0; i < dist.size(); i++)
     {
         if (dist[i] == INT_MAX) // If dist[i] was not updated, then the vertice is not connected to the source.
         {
-            output += to_string(i) + "\tNot Connected\n";
+            output += std::to_string(i) + "\tNot Connected\n";
         }
         else
         {
-            output += to_string(i) + "\t" + to_string(dist[i]) + "\n";
+            output += std::to_string(i) + "\t" + std::to_string(dist[i]) + "\n";
         }
     }
     return output;

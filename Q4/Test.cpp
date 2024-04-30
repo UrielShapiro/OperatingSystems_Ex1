@@ -9,13 +9,11 @@
 #include <algorithm>//To use std::min_element
 #include <set>      //To use set in MinNeighbor
 
-using namespace std;
-
 TEST_CASE("Test inputGraph - Valid input")
 {
     vector<vector<int>> graph = {{}};
-    istringstream input("0 1 2\n1 0 3\n2 3 0\n");
-    cin.rdbuf(input.rdbuf()); // Redirect cin to our input stream
+    std::istringstream input("0 1 2\n1 0 3\n2 3 0\n");
+    std::cin.rdbuf(input.rdbuf()); // Redirect cin to our input stream
     input_graph(graph);
     CHECK(graph[0][0] == 0);
     CHECK(graph[0][1] == 1);
@@ -28,8 +26,8 @@ TEST_CASE("Test inputGraph - Valid input")
     CHECK(graph[2][2] == 0);
 
     vector<vector<int>> graph2 = {{}};
-    istringstream input2("0 1 2 3\n1 0 3 4\n2 3 0 5\n3 4 5 0\n");
-    cin.rdbuf(input2.rdbuf()); 
+    std::istringstream input2("0 1 2 3\n1 0 3 4\n2 3 0 5\n3 4 5 0\n");
+    std::cin.rdbuf(input2.rdbuf()); 
     input_graph(graph2);
     CHECK(graph2[0][0] == 0);
     CHECK(graph2[0][1] == 1);
@@ -54,15 +52,15 @@ TEST_CASE("Test inputGraph - Negative weight")
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 -1 2\n1 0 3\n2 3 0\n");
     std::cin.rdbuf(input.rdbuf()); 
-    CHECK_THROWS_AS(input_graph(graph), invalid_argument);
+    CHECK_THROWS_AS(input_graph(graph), std::invalid_argument);
 }
 
 TEST_CASE("Test inputGraph - Weighted vertice")
 {
     vector<vector<int>> graph = {{}};
-    istringstream input("1 1 2\n1 0 3\n2 3 0\n");
-    cin.rdbuf(input.rdbuf()); 
-    CHECK_THROWS_AS(input_graph(graph), invalid_argument);
+    std::istringstream input("1 1 2\n1 0 3\n2 3 0\n");
+    std::cin.rdbuf(input.rdbuf()); 
+    CHECK_THROWS_AS(input_graph(graph), std::invalid_argument);
 }
 
 TEST_CASE("Test inputGraph - Too less vertices")
@@ -70,7 +68,7 @@ TEST_CASE("Test inputGraph - Too less vertices")
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 1 2 3\n1 0 3\n2 3 0\n");
     std::cin.rdbuf(input.rdbuf()); 
-    CHECK_THROWS_AS(input_graph(graph), length_error);
+    CHECK_THROWS_AS(input_graph(graph), std::length_error);
 }
 
 TEST_CASE("Test inputGraph - Too much vertices")
@@ -78,7 +76,7 @@ TEST_CASE("Test inputGraph - Too much vertices")
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 1\n1 0 3\n2 3 0\n");
     std::cin.rdbuf(input.rdbuf()); 
-    CHECK_THROWS_AS(input_graph(graph), out_of_range);
+    CHECK_THROWS_AS(input_graph(graph), std::out_of_range);
 }
 
 TEST_CASE("Test dijkstra")
@@ -146,7 +144,7 @@ TEST_CASE("Test PrintSolution")
         dist3.push_back((rand() % 100) + 1);
     }
     dist3.at(amount - (amount % 5)) = INT_MAX;
-    CHECK(printSolution(dist3).find("\tNot Connected\n") != string::npos); // Check if the output contains "Not Connected"
+    CHECK(printSolution(dist3).find("\tNot Connected\n") != std::string::npos); // Check if the output contains "Not Connected"
 
     // Test with a random amount of vertices - All connected
     vector<int> dist4;
@@ -155,7 +153,7 @@ TEST_CASE("Test PrintSolution")
     {
         dist4.push_back((rand() % 100) + 1);
     }
-    CHECK(printSolution(dist4).find("Not Connected") == string::npos); 
+    CHECK(printSolution(dist4).find("Not Connected") == std::string::npos); 
 }
 
 TEST_CASE("Test shouldRelax - Relax")
@@ -187,7 +185,7 @@ TEST_CASE("Test MinNeighbor")
     // Test with a random amount of vertices which are all connected.
     size_t amount = (size_t)(rand() % 50) + 5;
     vector<int> dist2;
-    set<int> dist2_set;
+    std::set<int> dist2_set;
     vector<bool> converged2(amount, false);
     for (size_t i = 0; i < amount; i++)
     {

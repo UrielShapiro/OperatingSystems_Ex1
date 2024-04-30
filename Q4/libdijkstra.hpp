@@ -3,12 +3,11 @@
 
 #include <vector>
 #include <string>
-using namespace std;
 
-void input_graph(vector<vector<int>> &graph);
-vector<int> dijkstra(vector<vector<int>> graph, int src);
-string printSolution(vector<int> dist);
-bool shouldRelax(int u, int v, int weight, vector<int> dist);
-int MinNeighbor(vector<int> dist, vector<bool> converged);
+void input_graph(std::vector<std::vector<int>> &graph);
+std::vector<int> dijkstra(std::vector<std::vector<int>> graph, int src);
+std::string printSolution(std::vector<int> dist);
+bool shouldRelax(int u, int v, int weight, std::vector<int> dist);
+int MinNeighbor(std::vector<int> dist, std::vector<bool> converged);
 
 #endif
