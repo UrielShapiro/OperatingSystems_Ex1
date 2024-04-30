@@ -3,11 +3,13 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <cstdlib>  //To use rand()
-#include <sstream>  //To use istringstream
-#include <climits>  //To use INT_MAX
-#include <algorithm>//To use std::min_element
-#include <set>      //To use set in MinNeighbor
+#include <cstdlib>      // To use rand()
+#include <sstream>      // To use istringstream
+#include <climits>      // To use INT_MAX
+#include <algorithm>    // To use std::min_element
+#include <set>          // To use set in MinNeighbor
+
+using std::vector;
 
 TEST_CASE("Test inputGraph - Valid input")
 {

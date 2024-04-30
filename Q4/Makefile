@@ -20,7 +20,7 @@ run.o: run.cpp
 $(MAIN): $(MAIN).o $(LIB).o
 	$(CXX) $(CXXFLAGS) -o $@ $^ -lgcov
 
-$(MAIN).o: $(MAIN).cpp $(LIB).hpp 
+$(MAIN).o: $(MAIN).cpp $(LIB).hpp
 	$(CXX) $(GCOV_FLAGS) $(CXXFLAGS) -c -o $@ $<
 
 $(LIB).o: $(LIB).cpp $(LIB).hpp
@@ -30,7 +30,7 @@ $(LIB).o: $(LIB).cpp $(LIB).hpp
 $(TEST_MAIN): Test.o TestMain.o $(LIB).o
 	$(CXX) $(CXXFLAGS) -o $@ $^ -lgcov
 
-Test.o: Test.cpp $(LIB).hpp  
+Test.o: Test.cpp $(LIB).hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 TestMain.o: TestMain.cpp

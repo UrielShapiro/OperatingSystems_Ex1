@@ -4,9 +4,11 @@
 
 using std::vector;
 
+#define INFINITE INT_MAX
+
 /*
 A function that receives a graph represented as an adjacency matrix (line by line) and stores it in a 2D vector.
-The function checks if the input is valid and thros an exception if it is not.
+The function checks if the input is valid and throws an exception if it is not.
 */
 void input_graph(vector<vector<int>> &graph)
 {
@@ -23,7 +25,7 @@ void input_graph(vector<vector<int>> &graph)
         size_t col = 0;
         char input;
         std::cin.clear();                                                                  // Clearing the input buffer before each iteration.
-        std::cout << "Enter the weight of the edges from vertice " << row << ": " << std::endl; // Prompting the user to enter the weights of the edges
+        std::cout << "Enter the weight of the edges from vertex " << row << ": " << std::endl; // Prompting the user to enter the weights of the edges
         while ((input = std::cin.get()) != '\n')                                           // Iterating through the input until the user presses enter ('\n')
         {
             if (input == ' ' || isalpha(input)) // If the input is a space/letter/NaN, it will be ignored.
@@ -62,7 +64,7 @@ std::string printSolution(vector<int> dist)
     output += "Vertex\tDistance from Source\n";
     for (size_t i = 0; i < dist.size(); i++)
     {
-        if (dist[i] == INT_MAX) // If dist[i] was not updated, then the vertice is not connected to the source.
+        if (dist[i] == INFINITE) // If dist[i] was not updated, then the vertice is not connected to the source.
         {
             output += std::to_string(i) + "\tNot Connected\n";
         }
@@ -80,7 +82,7 @@ Assuming that that neighbor was not visited yet.
 */
 int MinNeighbor(vector<int> dist, vector<bool> converged)
 {
-    int min = INT_MAX; 
+    int min = INFINITE; 
     int min_index = 0; // Initializing it to -1 to avoid any errors when returning (uninitialized value otherwise).
 
     for (size_t vertex_i = 0; vertex_i < dist.size(); vertex_i++) // Looping through the vertices
@@ -101,7 +103,7 @@ bool shouldRelax(int u, int v, int weight, vector<int> dist)
 {
     // If the vertex was visited (it's distance from the origin was updated)
     // and the distance from the origin to that vertex from the path through vertex u is shorter than the current distance found from the origin to vertex v,
-    if (dist[u] != INT_MAX && dist[u] + weight <= dist[v])  
+    if (dist[u] != INFINITE && dist[u] + weight <= dist[v])  
     {
         return true;
     }
@@ -122,7 +124,7 @@ vector<int> dijkstra(vector<vector<int>> graph, int src)
                             // included in shortest path tree or shortest distance from src to i is finalized
 
     // Initialize all distances as INFINITE and converged[] as false.
-    dist.assign(graph.size(), INT_MAX);
+    dist.assign(graph.size(), INFINITE);
     converged.assign(graph.size(), false);
 
     dist.at((size_t)src) = 0;   // Distance of source vertex from itself is always 0
