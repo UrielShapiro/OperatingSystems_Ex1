@@ -4,6 +4,10 @@
 # compiler outputs
 *.o
 *.so
+*.gcno
+
+# coverage testing output
+*.gcda
 
 # question executables
 Q1/DivisionByZeroException
@@ -11,8 +15,13 @@ Q1/StackOverflowException
 Q1/UndefinedMemoryException
 Q2/Poisson
 Q3/main
+Q4/main
+Q4/test
 Q6/add2PB
 Q6/findPhone
 
 # Q6 output file
 Q6/phonebook.txt
+
+# VSCode settings
+.vscode/settings.json
