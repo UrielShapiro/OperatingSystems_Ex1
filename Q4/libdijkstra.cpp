@@ -41,9 +41,9 @@ void input_graph(vector<vector<int>> &graph)
             {                         // If a negative weight is entered, an exception will be thrown.
                 throw std::invalid_argument{"Error: weight must be a positive number! but it is: " + std::to_string(weight) + "\n"};
             }
-            if (col == row && weight != 0) // Checking if the distance between a vertice and itself isn't 0.
+            if (col == row && weight != 0) // Checking if the distance between a vertex and itself isn't 0.
             {
-                throw std::invalid_argument{"Error: the weight of the edge between vertice " + std::to_string(row) + " and itself must be 0!\n"};
+                throw std::invalid_argument{"Error: the weight of the edge between vertex " + std::to_string(row) + " and itself must be 0!\n"};
             }
             graph.at(row).push_back(weight); // Storing the given weight at graph[row][col]
             col++;
@@ -56,7 +56,7 @@ void input_graph(vector<vector<int>> &graph)
 }
 
 /*
-A function to print the array which stores the shortest distance from the source to each vertice in the graph.
+A function to print the array which stores the shortest distance from the source to each vertex in the graph.
 */
 std::string printSolution(vector<int> dist)
 {
@@ -64,7 +64,7 @@ std::string printSolution(vector<int> dist)
     output += "Vertex\tDistance from Source\n";
     for (size_t i = 0; i < dist.size(); i++)
     {
-        if (dist[i] == INFINITE) // If dist[i] was not updated, then the vertice is not connected to the source.
+        if (dist[i] == INFINITE) // If dist[i] was not updated, then the vertex is not connected to the source.
         {
             output += std::to_string(i) + "\tNot Connected\n";
         }
@@ -113,7 +113,7 @@ bool shouldRelax(int u, int v, int weight, vector<int> dist)
 /*
 Function that implements Dijkstra's single source shortest path algorithm 
 for a graph represented using adjacency matrix
-@return A vector that stores the shortest distance from the source to each vertice in the graph.
+@return A vector that stores the shortest distance from the source to each vertex in the graph.
 */
 vector<int> dijkstra(vector<vector<int>> graph, int src)
 {

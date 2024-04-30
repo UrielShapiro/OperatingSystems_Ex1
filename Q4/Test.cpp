@@ -57,7 +57,7 @@ TEST_CASE("Test inputGraph - Negative weight")
     CHECK_THROWS_AS(input_graph(graph), std::invalid_argument);
 }
 
-TEST_CASE("Test inputGraph - Weighted vertice")
+TEST_CASE("Test inputGraph - Weighted vertex")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("1 1 2\n1 0 3\n2 3 0\n");
@@ -65,7 +65,7 @@ TEST_CASE("Test inputGraph - Weighted vertice")
     CHECK_THROWS_AS(input_graph(graph), std::invalid_argument);
 }
 
-TEST_CASE("Test inputGraph - Too less vertices")
+TEST_CASE("Test inputGraph - Too few vertices")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 1 2 3\n1 0 3\n2 3 0\n");
@@ -73,7 +73,7 @@ TEST_CASE("Test inputGraph - Too less vertices")
     CHECK_THROWS_AS(input_graph(graph), std::length_error);
 }
 
-TEST_CASE("Test inputGraph - Too much vertices")
+TEST_CASE("Test inputGraph - Too many vertices")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 1\n1 0 3\n2 3 0\n");
