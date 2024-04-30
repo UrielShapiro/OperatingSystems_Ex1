@@ -1,13 +1,14 @@
 QS = Q1 Q2 Q3 Q4 Q5 Q6
+QS_ALL = $(foreach q, $(QS), $(q)_all)
+QS_CLEAN = $(foreach q, $(QS), $(q)_clean)
 
-all: $(foreach q, $(QS), $(q)_all)
+all: $(QS_ALL)
+clean: $(QS_CLEAN)
 
-clean: $(foreach q, $(QS), $(q)_clean)
+$(QS_ALL):
+	-make -C $(@:_all=) all
 
-%_all:
-	-make -C $* all
+$(QS_CLEAN):
+	-make -C $(@:_clean=) clean
 
-%_clean:
-	-make -C $* clean
-
-.PHONY: all clean $(foreach q, $(QS), $(q)_all) $(foreach q, $(QS), $(q)_clean)
+.PHONY: all clean $(QS_ALL) $(QS_CLEAN)
