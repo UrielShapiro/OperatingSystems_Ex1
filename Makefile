@@ -10,4 +10,4 @@ clean: $(foreach q, $(QS), $(q)_clean)
 %_clean:
 	-make -C $* clean
 
-.PHONY: $(QS)
+.PHONY: all clean $(foreach q, $(QS), $(q)_all) $(foreach q, $(QS), $(q)_clean)
