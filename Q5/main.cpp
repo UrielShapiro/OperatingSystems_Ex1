@@ -1,15 +1,15 @@
 #include <iostream>
 #include <vector>
 
-int maxSubArraySum(std::vector<int>);
+int maxSubArraySum(int[], size_t);
 
-std::vector<int> create_random_input(unsigned long seed, size_t n)
+int* create_random_input(unsigned long seed, size_t n)
 {
-    std::vector<int> result;
+    int* result = new int[n];
     srand(seed);
     for (size_t i = 0; i < n; ++i)
     {
-        result.push_back((rand() % 100) - 25);
+        result[i] = (rand() % 100) - 25;
     }
     return result;
 }
@@ -27,7 +27,8 @@ int main(int argc, char **argv)
     size_t n = atoi(argv[2]);
 
     auto arr = create_random_input(seed, n);
-    int result = maxSubArraySum(arr);
+    int result = maxSubArraySum(arr,n);
     std::cout << "The result is " << result << std::endl;
+    delete[] arr;
     return 0;
 }
