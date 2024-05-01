@@ -17,8 +17,15 @@ Q2/Poisson
 Q3/main
 Q4/main
 Q4/test
+Q5/main_n
+Q5/main_n2
+Q5/main_n3
 Q6/add2PB
 Q6/findPhone
+
+# Q5 results files
+Q5/results
+Q5/gmon.out
 
 # Q6 output file
 Q6/phonebook.txt
