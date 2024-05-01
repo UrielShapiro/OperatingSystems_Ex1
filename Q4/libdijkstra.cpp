@@ -89,12 +89,12 @@ std::string print_dists(vector<int> dist)
 int min_neighbor(vector<int> dist, vector<bool> converged)
 {
     int min = INFINITE; 
-    int min_index = 0; // Initializing it to -1 to avoid any errors when returning (uninitialized value otherwise).
+    int min_index = 0; // Initializing it to 0 to avoid any errors when returning (uninitialized value otherwise).
 
-    for (size_t vertex_i = 0; vertex_i < dist.size(); vertex_i++) // Looping through the vertices
+    for (size_t vertex_i = 0; vertex_i < dist.size(); vertex_i++)   // Looping through the vertices
         if (converged[vertex_i] == false && dist[vertex_i] <= min)  // If the neighbor was not visited yet and the distance
-        // from the source is less or equal to the minimum distance from the source
-        //This is the neighbor with the current minimum distance from the source.
+        // from the source is less or equal to the minimum distance.
+        // This is the neighbor with the current minimum distance from the source.
         {
             min = dist[vertex_i]; // The unvisited neighbor with the minimum distance from the source is stored in min.
             min_index = vertex_i; // Updating min_index to the index of the neighbor with the minimum distance from the source.
@@ -103,12 +103,14 @@ int min_neighbor(vector<int> dist, vector<bool> converged)
 }
 
 /*
-A function that checks if a vertex should be relaxed or not.
+    * A function that checks if a vertex should be relaxed or not.
+    * @return True if the vertex should be relaxed, False otherwise.
 */
 bool should_relax(int u, int v, int weight, vector<int> dist)
 {
     // If the vertex was visited (it's distance from the origin was updated)
-    // and the distance from the origin to that vertex from the path through vertex u is shorter than the current distance found from the origin to vertex v,
+    // and the distance from the origin to that vertex from the path through vertex u is shorter than the current distance 
+    // found from the origin to vertex v, then the vertex should be relaxed.
     if (dist[u] != INFINITE && dist[u] + weight <= dist[v])  
     {
         return true;
@@ -117,25 +119,24 @@ bool should_relax(int u, int v, int weight, vector<int> dist)
 }
 
 /*
-Function that implements Dijkstra's single source shortest path algorithm 
-for a graph represented using adjacency matrix
-@return A vector that stores the shortest distance from the source to each vertex in the graph.
+    * Function that implements Dijkstra's single source shortest path algorithm 
+    * for a graph represented using adjacency matrix
+    * @return A vector that stores the shortest distance from the source to each vertex in the graph.
 */
 vector<int> dijkstra(vector<vector<int>> graph, int src)
 {
-    vector<int> dist; // The output array.  dist[i] will hold the
-                      // shortest distance from src to i
+    vector<int> dist; // The output vector. dist[i] will hold the weight of the shortest path from src to vertex i
 
-    vector<bool> converged; // converged[i] will be true if vertex i is
-                            // included in shortest path tree or shortest distance from src to i is finalized
+    vector<bool> converged; // converged[i] will be true if vertex i is included in shortest path tree
+                            // or shortest distance from src to i is finalized
 
-    // Initialize all distances as INFINITE and converged[] as false.
+    // Initialize all distances as INFINITE and converged vector as false.
     dist.assign(graph.size(), INFINITE);
     converged.assign(graph.size(), false);
 
     dist.at((size_t)src) = 0;   // Distance of source vertex from itself is always 0
 
-    // Find shortest path for all vertices
+    // Find shortest path from src to all vertices
     for (size_t count = 0; count < graph.size(); count++)
     {
         // Pick the minimum distance vertex from the set of
@@ -149,8 +150,8 @@ vector<int> dijkstra(vector<vector<int>> graph, int src)
         // Update distance value of the adjacent vertices of the picked vertex. (Relaxation step)
         for (size_t v = 0; v < graph.size(); v++)
 
-            // Update dist[v] only if is not in converged,
-            // and there is an edge from u to v, 
+            // Update dist[v] only if not converged yet,
+            // and there is an edge from u to v (graph[u][v] != 0), 
             // and that vertex should relax (using the should_relax function)
             if (!converged[v] && graph[u][v] && should_relax(u, v, graph.at(u).at(v), dist))
             {

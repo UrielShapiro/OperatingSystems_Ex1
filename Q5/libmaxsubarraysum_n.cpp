@@ -1,9 +1,11 @@
 #include <iostream>
 #include <climits>
-#include <vector>
 
 #define MINUS_INF INT_MIN
-
+/*
+    * This function calculates the maximum subarray sum of an array of integers in O(n).
+    * @returns the maximum subarray sum.
+*/
 int maxSubArraySum(int arr[], size_t n)
 {
     int maxSum = 0, currentSum = 0;
