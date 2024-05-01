@@ -11,14 +11,14 @@
 
 using std::vector;
 
-TEST_CASE("Test inputGraph - Valid input")
+TEST_CASE("Test input_graph - Valid input")
 {
     vector<vector<int>> graph = {{}};
-    std::istringstream input("0 1 2\n1 0 3\n2 3 0\n");
+    std::istringstream input("0 11 2\n1 0 3\n2 03 0\n");
     std::cin.rdbuf(input.rdbuf()); // Redirect cin to our input stream
     input_graph(graph);
     CHECK(graph[0][0] == 0);
-    CHECK(graph[0][1] == 1);
+    CHECK(graph[0][1] == 11);
     CHECK(graph[0][2] == 2);
     CHECK(graph[1][0] == 1);
     CHECK(graph[1][1] == 0);
@@ -49,7 +49,7 @@ TEST_CASE("Test inputGraph - Valid input")
     CHECK(graph2[3][3] == 0);
 }
 
-TEST_CASE("Test inputGraph - Negative weight")
+TEST_CASE("Test input_graph - Negative weight")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 -1 2\n1 0 3\n2 3 0\n");
@@ -57,7 +57,7 @@ TEST_CASE("Test inputGraph - Negative weight")
     CHECK_THROWS_AS(input_graph(graph), std::invalid_argument);
 }
 
-TEST_CASE("Test inputGraph - Weighted vertex")
+TEST_CASE("Test input_graph - Weighted vertex")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("1 1 2\n1 0 3\n2 3 0\n");
@@ -65,7 +65,7 @@ TEST_CASE("Test inputGraph - Weighted vertex")
     CHECK_THROWS_AS(input_graph(graph), std::invalid_argument);
 }
 
-TEST_CASE("Test inputGraph - Too few vertices")
+TEST_CASE("Test input_graph - Too few vertices")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 1 2 3\n1 0 3\n2 3 0\n");
@@ -73,7 +73,7 @@ TEST_CASE("Test inputGraph - Too few vertices")
     CHECK_THROWS_AS(input_graph(graph), std::length_error);
 }
 
-TEST_CASE("Test inputGraph - Too many vertices")
+TEST_CASE("Test input_graph - Too many vertices")
 {
     vector<vector<int>> graph = {{}};
     std::istringstream input("0 1\n1 0 3\n2 3 0\n");
@@ -130,13 +130,13 @@ TEST_CASE("Test dijkstra")
     vector<int> dist3(dijkstra(graph3, 0));
     CHECK(dist3.at(amount - (amount % 5)) == INT_MAX);
 }
-TEST_CASE("Test PrintSolution")
+TEST_CASE("Test print_dists")
 {
     vector<int> dist = {0, 1, 2};
-    CHECK(print_solution(dist) == "Vertex\tDistance from Source\n0\t0\n1\t1\n2\t2\n");
+    CHECK(print_dists(dist) == "Vertex\tDistance from Source\n0\t0\n1\t1\n2\t2\n");
 
     vector<int> dist2 = {0, INT_MAX, 2};
-    CHECK(print_solution(dist2) == "Vertex\tDistance from Source\n0\t0\n1\tNot Connected\n2\t2\n");
+    CHECK(print_dists(dist2) == "Vertex\tDistance from Source\n0\t0\n1\tNot Connected\n2\t2\n");
 
     // Test with a random amount of vertices - One of which is not connected
     vector<int> dist3;
@@ -146,7 +146,7 @@ TEST_CASE("Test PrintSolution")
         dist3.push_back((rand() % 100) + 1);
     }
     dist3.at(amount - (amount % 5)) = INT_MAX;
-    CHECK(print_solution(dist3).find("\tNot Connected\n") != std::string::npos); // Check if the output contains "Not Connected"
+    CHECK(print_dists(dist3).find("\tNot Connected\n") != std::string::npos); // Check if the output contains "Not Connected"
 
     // Test with a random amount of vertices - All connected
     vector<int> dist4;
@@ -155,7 +155,7 @@ TEST_CASE("Test PrintSolution")
     {
         dist4.push_back((rand() % 100) + 1);
     }
-    CHECK(print_solution(dist4).find("Not Connected") == std::string::npos); 
+    CHECK(print_dists(dist4).find("Not Connected") == std::string::npos); 
 }
 
 TEST_CASE("Test should_relax - Relax")

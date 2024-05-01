@@ -1,6 +1,9 @@
 #include <iostream>
 #include <climits>
 #include <vector>
+#include <string>
+#include <sstream>
+
 
 using std::vector;
 
@@ -17,26 +20,22 @@ void input_graph(vector<vector<int>> &graph)
                                                // then limit the length of the matrix to that value.
     for (size_t row = 0; row < mat_len; row++)
     {
-        if (row == 1) // If the user has entered the first row, then the length of the matrix is known
-        {
-            mat_len = graph.at(0).size();
-            graph.resize(mat_len); // Resizing the matrix to the length of the matrix
-        }
         size_t col = 0;
-        char input;
         std::cin.clear();                                                                  // Clearing the input buffer before each iteration.
         std::cout << "Enter the weight of the edges from vertex " << row << ": " << std::endl; // Prompting the user to enter the weights of the edges
-        while ((input = std::cin.get()) != '\n')                                           // Iterating through the input until the user presses enter ('\n')
+        
+        std::string buffer;
+        std::getline(std::cin, buffer);
+        std::istringstream iss(buffer);
+        
+        while (!iss.eof())                                           // Iterating through the input until the user presses enter ('\n')
         {
-            if (input == ' ' || isalpha(input)) // If the input is a space/letter/NaN, it will be ignored.
-            {
-                continue;
-            }
+            int weight;
+            iss >> weight;
             if (col >= mat_len) // If the amount of weights (edges) entered is more than the amount of vertices,
             {                   // an error will be thrown.
                 throw std::out_of_range{"Error: the amount of weights entered is more than the amount of vertices!"};
             }
-            int weight = input - '0'; // Parsing the input to an integer
             if (weight < 0)           // Negative weights are not allowed.
             {                         // If a negative weight is entered, an exception will be thrown.
                 throw std::invalid_argument{"Error: weight must be a positive number! but it is: " + std::to_string(weight) + "\n"};
@@ -52,13 +51,19 @@ void input_graph(vector<vector<int>> &graph)
         {                              // an error will be thrown.
             throw std::length_error{"Error: the amount of weights entered is less than the amount of vertices!"};
         }
+
+        if (row == 0) // After the user has entered the first row, then the length of the matrix is known
+        {
+            mat_len = graph.at(0).size();
+            graph.resize(mat_len); // Resizing the matrix to the length of the matrix
+        }
     }
 }
 
 /*
 A function to print the array which stores the shortest distance from the source to each vertex in the graph.
 */
-std::string print_solution(vector<int> dist)
+std::string print_dists(vector<int> dist)
 {
     std::string output = "";
     output += "Vertex\tDistance from Source\n";
@@ -73,7 +78,7 @@ std::string print_solution(vector<int> dist)
             output += std::to_string(i) + "\t" + std::to_string(dist[i]) + "\n";
         }
     }
-    return output;
+    return output; 
 }
 
 /*

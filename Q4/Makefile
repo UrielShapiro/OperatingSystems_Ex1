@@ -11,9 +11,9 @@ all: $(MAIN) $(TEST_MAIN)
 
 run:
 	make all
-	./test
-	gcov libdijkstra.cpp
-	cat libdijkstra.cpp.gcov
+	./$(TEST_MAIN)
+	gcov $(LIB).cpp
+	cat $(LIB).cpp.gcov
 	make clean
 
 $(MAIN): $(MAIN).o $(LIB).o
