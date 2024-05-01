@@ -9,13 +9,12 @@ DOCTEST_PATH = . # path to doctest.h is in the current directory
 all: $(MAIN) $(TEST_MAIN)
 
 
-run: run.o
-	$(CXX) $(CXXFLAGS) -o $@ $^
-	./run
-
-run.o: run.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
+run:
+	make all
+	./test
+	gcov libdijkstra.cpp
+	cat libdijkstra.cpp.gcov
+	make clean
 
 $(MAIN): $(MAIN).o $(LIB).o
 	$(CXX) $(CXXFLAGS) -o $@ $^ -lgcov
@@ -41,4 +40,4 @@ clean:
 	rm -f *.o *.so *.gcov *.gcda *.gcno $(MAIN) $(TEST_MAIN) run
 
 .SUFFIXES:
-.PHONY: all clean
+.PHONY: all clean run
