@@ -11,9 +11,27 @@ the shortest path from the source (first vertex) to all other vertices.
 int main()
 {
     vector<vector<int>> graph = {{}};
-    input_graph(graph);
-    vector<int> dist = dijkstra(graph, 0);
-    std::cout << print_solution(dist) << std::endl;
-
+    try
+    {
+        input_graph(graph);
+    }
+    catch(const std::invalid_argument& e)
+    {
+        std::cerr << e.what() << '\n';
+        return 1;
+    }
+    catch(const std::out_of_range& e)
+    {
+        std::cerr << e.what() << '\n';
+        return 1;
+    }
+    catch(const std::length_error& e)
+    {
+        std::cerr << e.what() << '\n';
+        return 1;
+    }
+    vector<int> dist(dijkstra(graph, 0));
+    std::cout << print_dists(dist) << std::endl;
+    
     return 0;
 }
