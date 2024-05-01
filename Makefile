@@ -11,4 +11,5 @@ $(QS_ALL):
 $(QS_CLEAN):
 	-make -C $(@:_clean=) clean
 
+.SUFFIXES:
 .PHONY: all clean $(QS_ALL) $(QS_CLEAN)
