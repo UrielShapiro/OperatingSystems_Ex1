@@ -23,45 +23,46 @@ void input_graph(vector<vector<int>> &graph)
         size_t col = 0;
         std::cin.clear();                                                                  // Clearing the input buffer before each iteration.
         std::cout << "Enter the weight of the edges from vertex " << row << ": " << std::endl; // Prompting the user to enter the weights of the edges
+
+        std::string buffer;                     // Setting a buffer to store the input
+        std::getline(std::cin, buffer);         // Getting a line of input from the user
+        std::istringstream iss(buffer);         // Creating an input string stream to iterate through the input
         
-        std::string buffer;
-        std::getline(std::cin, buffer);
-        std::istringstream iss(buffer);
-        
-        while (!iss.eof())                                           // Iterating through the input until the user presses enter ('\n')
+        while (!iss.eof())                      // Iterating through the input until the end of the line
         {
             int weight;
-            iss >> weight;
-            if (col >= mat_len) // If the amount of weights (edges) entered is more than the amount of vertices,
-            {                   // an error will be thrown.
+            iss >> weight;                      // Storing each weight in the variable weight (Parsed as an integer)
+            if (col >= mat_len)                 // If the amount of weights (edges) entered is more than the amount of vertices, an error will be thrown.
+            {                         
                 throw std::out_of_range{"Error: the amount of weights entered is more than the amount of vertices!"};
             }
-            if (weight < 0)           // Negative weights are not allowed.
-            {                         // If a negative weight is entered, an exception will be thrown.
+            if (weight < 0)                     // Negative weights are not allowed.
+            {                                   // If a negative weight is entered, an exception will be thrown.
                 throw std::invalid_argument{"Error: weight must be a positive number! but it is: " + std::to_string(weight) + "\n"};
             }
-            if (col == row && weight != 0) // Checking if the distance between a vertex and itself isn't 0.
+            if (col == row && weight != 0)      // Checking if the distance between a vertex and itself isn't 0.
             {
                 throw std::invalid_argument{"Error: the weight of the edge between vertex " + std::to_string(row) + " and itself must be 0!\n"};
             }
-            graph.at(row).push_back(weight); // Storing the given weight at graph[row][col]
+            graph.at(row).push_back(weight);    // Storing the given weight at graph[row][col]
             col++;
         }
-        if (row != 0 && col < mat_len) // If the amount of weights (edges) entered is less than the amount of vertices,
-        {                              // an error will be thrown.
+        if (row != 0 && col < mat_len)          // If the amount of weights (edges) entered is less than the amount of vertices, an error will be thrown.
+        {                              
             throw std::length_error{"Error: the amount of weights entered is less than the amount of vertices!"};
         }
 
-        if (row == 0) // After the user has entered the first row, then the length of the matrix is known
+        if (row == 0)                           // After the user has entered the first row, then the length of the matrix is known
         {
             mat_len = graph.at(0).size();
-            graph.resize(mat_len); // Resizing the matrix to the length of the matrix
+            graph.resize(mat_len);              // Resizing the matrix to the length of the matrix
         }
     }
 }
 
 /*
-A function to print the array which stores the shortest distance from the source to each vertex in the graph.
+    * A function to print the array which stores the shortest distance from the source to each vertex in the graph.
+    @return A string that contains the vertex and its distance from the source.
 */
 std::string print_dists(vector<int> dist)
 {
@@ -78,12 +79,12 @@ std::string print_dists(vector<int> dist)
             output += std::to_string(i) + "\t" + std::to_string(dist[i]) + "\n";
         }
     }
-    return output; 
-}
+    return output; }
 
 /*
-A function to find the neighbor with the minimum distance from the source.
-Assuming that that neighbor was not visited yet.
+    * A function to find the neighbor with the minimum distance from the source.
+    * Assuming that that neighbor was not visited yet.
+    * @return The index of the neighbor with the minimum distance from the source.
 */
 int min_neighbor(vector<int> dist, vector<bool> converged)
 {
