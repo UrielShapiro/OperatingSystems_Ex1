@@ -58,7 +58,7 @@ void input_graph(vector<vector<int>> &graph)
 /*
 A function to print the array which stores the shortest distance from the source to each vertex in the graph.
 */
-std::string printSolution(vector<int> dist)
+std::string print_solution(vector<int> dist)
 {
     std::string output = "";
     output += "Vertex\tDistance from Source\n";
@@ -80,7 +80,7 @@ std::string printSolution(vector<int> dist)
 A function to find the neighbor with the minimum distance from the source.
 Assuming that that neighbor was not visited yet.
 */
-int MinNeighbor(vector<int> dist, vector<bool> converged)
+int min_neighbor(vector<int> dist, vector<bool> converged)
 {
     int min = INFINITE; 
     int min_index = 0; // Initializing it to -1 to avoid any errors when returning (uninitialized value otherwise).
@@ -99,7 +99,7 @@ int MinNeighbor(vector<int> dist, vector<bool> converged)
 /*
 A function that checks if a vertex should be relaxed or not.
 */
-bool shouldRelax(int u, int v, int weight, vector<int> dist)
+bool should_relax(int u, int v, int weight, vector<int> dist)
 {
     // If the vertex was visited (it's distance from the origin was updated)
     // and the distance from the origin to that vertex from the path through vertex u is shorter than the current distance found from the origin to vertex v,
@@ -135,7 +135,7 @@ vector<int> dijkstra(vector<vector<int>> graph, int src)
         // Pick the minimum distance vertex from the set of
         // vertices not yet processed. 
         // u = src in the first iteration
-        int u = MinNeighbor(dist, converged);
+        int u = min_neighbor(dist, converged);
 
         // Mark the picked vertex as converged.
         converged[u] = true;
@@ -145,8 +145,8 @@ vector<int> dijkstra(vector<vector<int>> graph, int src)
 
             // Update dist[v] only if is not in converged,
             // and there is an edge from u to v, 
-            // and that vertex should relax (using the shouldRelax function)
-            if (!converged[v] && graph[u][v] && shouldRelax(u, v, graph.at(u).at(v), dist))
+            // and that vertex should relax (using the should_relax function)
+            if (!converged[v] && graph[u][v] && should_relax(u, v, graph.at(u).at(v), dist))
             {
                 dist[v] = dist[u] + graph[u][v];
             }

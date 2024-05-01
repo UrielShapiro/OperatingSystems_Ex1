@@ -133,10 +133,10 @@ TEST_CASE("Test dijkstra")
 TEST_CASE("Test PrintSolution")
 {
     vector<int> dist = {0, 1, 2};
-    CHECK(printSolution(dist) == "Vertex\tDistance from Source\n0\t0\n1\t1\n2\t2\n");
+    CHECK(print_solution(dist) == "Vertex\tDistance from Source\n0\t0\n1\t1\n2\t2\n");
 
     vector<int> dist2 = {0, INT_MAX, 2};
-    CHECK(printSolution(dist2) == "Vertex\tDistance from Source\n0\t0\n1\tNot Connected\n2\t2\n");
+    CHECK(print_solution(dist2) == "Vertex\tDistance from Source\n0\t0\n1\tNot Connected\n2\t2\n");
 
     // Test with a random amount of vertices - One of which is not connected
     vector<int> dist3;
@@ -146,7 +146,7 @@ TEST_CASE("Test PrintSolution")
         dist3.push_back((rand() % 100) + 1);
     }
     dist3.at(amount - (amount % 5)) = INT_MAX;
-    CHECK(printSolution(dist3).find("\tNot Connected\n") != std::string::npos); // Check if the output contains "Not Connected"
+    CHECK(print_solution(dist3).find("\tNot Connected\n") != std::string::npos); // Check if the output contains "Not Connected"
 
     // Test with a random amount of vertices - All connected
     vector<int> dist4;
@@ -155,34 +155,34 @@ TEST_CASE("Test PrintSolution")
     {
         dist4.push_back((rand() % 100) + 1);
     }
-    CHECK(printSolution(dist4).find("Not Connected") == std::string::npos); 
+    CHECK(print_solution(dist4).find("Not Connected") == std::string::npos); 
 }
 
-TEST_CASE("Test shouldRelax - Relax")
+TEST_CASE("Test should_relax - Relax")
 {
     vector<int> dist = {0, 1, 2};
-    CHECK(shouldRelax(0, 1, 1, dist) == true);
+    CHECK(should_relax(0, 1, 1, dist) == true);
 
     // Test with a random amount of vertices which are all connected.
     vector<int> dist2((rand() % 50) + 5, (rand() % 50) + 5);
-    CHECK(shouldRelax(0, 1, 0, dist2) == true);
+    CHECK(should_relax(0, 1, 0, dist2) == true);
 }
 
-TEST_CASE("Test shouldRelax - Don't relax")
+TEST_CASE("Test should_relax - Don't relax")
 {
     vector<int> dist = {0, 1, 2};
-    CHECK(shouldRelax(0, 1, INT_MAX, dist) == false);
+    CHECK(should_relax(0, 1, INT_MAX, dist) == false);
 
     // Test with a random amount of vertices which are all not connected.
     vector<int> dist2((rand() % 50) + 5, INT_MAX);
-    CHECK(shouldRelax(0, 1, 1, dist2) == false);
+    CHECK(should_relax(0, 1, 1, dist2) == false);
 }
 
-TEST_CASE("Test MinNeighbor")
+TEST_CASE("Test min_neighbor")
 {
     vector<int> dist = {0, 1, 2};
     vector<bool> converged = {false, false, false};
-    CHECK(MinNeighbor(dist, converged) == 0);   // The minimum neighbor is the src.
+    CHECK(min_neighbor(dist, converged) == 0);   // The minimum neighbor is the src.
 
     // Test with a random amount of vertices which are all connected.
     size_t amount = (size_t)(rand() % 50) + 5;
@@ -207,5 +207,5 @@ TEST_CASE("Test MinNeighbor")
     
     int minIndex = std::distance(dist2.begin(), iterator);          // Get the index of the minimum element by calculating the distance 
                                                                     // between the beginning of the vector and the iterator
-    CHECK(MinNeighbor(dist2, converged2) == minIndex);
+    CHECK(min_neighbor(dist2, converged2) == minIndex);
 }

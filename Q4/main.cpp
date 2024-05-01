@@ -13,7 +13,7 @@ int main()
     vector<vector<int>> graph = {{}};
     input_graph(graph);
     vector<int> dist = dijkstra(graph, 0);
-    std::cout << printSolution(dist) << std::endl;
+    std::cout << print_solution(dist) << std::endl;
 
     return 0;
 }
