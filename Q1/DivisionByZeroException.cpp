@@ -1,3 +1,4 @@
 int main() {
-    return 1/0;
+    int z = 0;
+    return 1/z;
 }
