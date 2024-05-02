@@ -5,11 +5,12 @@ int maxSubArraySum(int[], size_t);
 
 /*
     * This function generates an array of random integers.
+    * The array is dynamically allocated and must later be deleted.
     * @returns a pointer to the array.
 */
-int* create_random_input(unsigned long seed, size_t n)
+int *create_random_input(unsigned long seed, size_t n)
 {
-    int* result = new int[n];
+    int *result = new int[n];
     srand(seed);
     for (size_t i = 0; i < n; ++i)
     {
@@ -27,8 +28,8 @@ int main(int argc, char **argv)
         std::cerr << "Usage: " << program << " <seed> <n>" << std::endl;
         return 1;
     }
-    unsigned int seed = atoi(argv[1]);  // Parse the seed from the command line
-    size_t n = atoi(argv[2]);           
+    unsigned int seed = atoi(argv[1]);  // Parse the seed from the arguments
+    size_t n = atoi(argv[2]);           // Parse n from the arguments
 
     auto arr = create_random_input(seed, n);
     int result = maxSubArraySum(arr,n);
