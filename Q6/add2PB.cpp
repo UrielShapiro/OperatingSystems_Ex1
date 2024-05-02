@@ -34,7 +34,7 @@ bool add(std::string name, std::string num)
 	}
 	return true;
 }
-
+// TODO: make this take command line arguments instead of stdin input
 int main()
 {
 	std::string name, num;
