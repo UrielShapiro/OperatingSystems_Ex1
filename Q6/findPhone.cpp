@@ -7,7 +7,7 @@
 
 const char *PB_FILEPATH = "phonebook.txt";
 
-bool print_number(std::string name)
+bool print_number(char *name)
 {
 	// we will emulate the command:
 	// grep $(name) < $(PB_FILEPATH) | cut -d, -f2 | xargs
@@ -18,7 +18,7 @@ bool print_number(std::string name)
 		close(pipe_grep_to_cut[0]);
 		dup2(open(PB_FILEPATH, O_RDONLY), STDIN_FILENO);
 		dup2(pipe_grep_to_cut[1], STDOUT_FILENO);
-		execlp("grep", "grep", name.c_str(), (char *) NULL);
+		execlp("grep", "grep", name, (char *) NULL);
 	}
 	
 	pipe(pipe_cut_to_xargs);
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	std::string name(argv[1]);
+	char *name = argv[1];
 	std::cout << "Found number(s) for names matching \"" << name << "\": " << std::flush;
 	print_number(name);
 	return 0;
