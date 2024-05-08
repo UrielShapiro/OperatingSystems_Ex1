@@ -1,9 +1,5 @@
-#include <cassert>
 #include <iostream>
-#include <string>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 
 const char *PB_FILEPATH = "phonebook.txt";
@@ -11,31 +7,19 @@ const char *PB_FILEPATH = "phonebook.txt";
 bool add(std::string name, std::string num)
 {
 	// we will emulate the command:
-	// echo $(name) , $(num) | tee --append $(PB_FILEPATH) > /dev/null
-	// this will write the entry, append it into the phonebook, and throw the output of `tee` to the black hole
+	// echo $(name) , $(num) >> $(PB_FILEPATH)
 
-	int pipe_echo_to_tee[2];	// create a pipe to put between `echo` and `tee`
-	pipe(pipe_echo_to_tee);
-	
 	// fork to run `echo`
 	if (fork() == 0)
 	{
-		dup2(pipe_echo_to_tee[1], STDOUT_FILENO);	// set the output of echo to go into the pipe's write-end
+		dup2(open(PB_FILEPATH, O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH), STDOUT_FILENO);
 		execlp("echo", "echo", name.c_str(), ",", num.c_str(), (char *) NULL);	// execute the echo
 
-	}
-	
-	// fork to run `tee`
-	if (fork() == 0)
-	{
-		dup2(pipe_echo_to_tee[0], STDIN_FILENO);	// set the read-end of the pipe as the input of tee
-		dup2(open("/dev/null", O_WRONLY), STDOUT_FILENO);	// set the output of tee to /dev/null to throw away
-		execlp("tee", "tee", "--append", PB_FILEPATH, (char *) NULL);	// execute tee
 	}
 	return true;
 }
 // TODO: make this take command line arguments instead of stdin input
-int main()
+int main(void)
 {
 	std::string name, num;
 	std::cout << "Enter name: ";
