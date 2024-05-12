@@ -7,6 +7,9 @@
 
 const char *PB_FILEPATH = "phonebook.txt";
 
+#define PIPE_READ_END 0
+#define PIPE_WRITE_END 1
+
 bool print_number(char *name)
 {
 	// we will emulate the command:
@@ -15,33 +18,33 @@ bool print_number(char *name)
 	pipe(pipe_grep_to_cut);
 	if (fork() == 0)
 	{
-		close(pipe_grep_to_cut[0]);
+		close(pipe_grep_to_cut[PIPE_READ_END]);
 		dup2(open(PB_FILEPATH, O_RDONLY), STDIN_FILENO);
-		dup2(pipe_grep_to_cut[1], STDOUT_FILENO);
+		dup2(pipe_grep_to_cut[PIPE_WRITE_END], STDOUT_FILENO);
 		execlp("grep", "grep", name, (char *) NULL);
 	}
 	
 	pipe(pipe_cut_to_xargs);
 	if (fork() == 0)
 	{
-		close(pipe_grep_to_cut[1]);
-		close(pipe_cut_to_xargs[0]);
-		dup2(pipe_grep_to_cut[0], STDIN_FILENO);
-		dup2(pipe_cut_to_xargs[1], STDOUT_FILENO);
+		close(pipe_grep_to_cut[PIPE_WRITE_END]);
+		close(pipe_cut_to_xargs[PIPE_READ_END]);
+		dup2(pipe_grep_to_cut[PIPE_READ_END], STDIN_FILENO);
+		dup2(pipe_cut_to_xargs[PIPE_WRITE_END], STDOUT_FILENO);
 		execlp("cut", "cut", "-d,", "-f2", (char *) NULL);
 	}
 	int xargs_pid;
-	close(pipe_grep_to_cut[0]);
-	close(pipe_grep_to_cut[1]);
+	close(pipe_grep_to_cut[PIPE_READ_END]);
+	close(pipe_grep_to_cut[PIPE_WRITE_END]);
 	if ((xargs_pid = fork()) == 0)
 	{
-		close(pipe_cut_to_xargs[1]);
-		dup2(pipe_cut_to_xargs[0], STDIN_FILENO);
+		close(pipe_cut_to_xargs[PIPE_WRITE_END]);
+		dup2(pipe_cut_to_xargs[PIPE_READ_END], STDIN_FILENO);
 		execlp("xargs", "xargs", (char *) NULL);
 		exit(0);
 	}
-	close(pipe_cut_to_xargs[0]);
-	close(pipe_cut_to_xargs[1]);
+	close(pipe_cut_to_xargs[PIPE_READ_END]);
+	close(pipe_cut_to_xargs[PIPE_WRITE_END]);
 	waitpid(xargs_pid, NULL, 0);
 	return true;
 }
