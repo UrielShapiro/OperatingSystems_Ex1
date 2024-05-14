@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	args[argc] = NULL;
 
 	// we will emulate the command:
-	// echo $(name) , $(num) >> $(PB_FILEPATH)
+	// echo ...(args) >> $(PB_FILEPATH)
 
 	// fork to run `echo`
 	if (fork() == 0)
