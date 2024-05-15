@@ -15,7 +15,7 @@ The function checks if the input is valid and throws an exception if it is not.
 */
 void input_graph(vector<vector<int>> &graph)
 {
-    size_t mat_len = SIZE_MAX;                 // Setting the length of the matrix to the maximum value before the first iteration
+    size_t mat_len = INFINITE;                 // Setting the length of the matrix to the maximum value before the first iteration
                                                // In order to let the user enter the amount of vertices,
                                                // then limit the length of the matrix to that value.
     for (size_t row = 0; row < mat_len; row++)
