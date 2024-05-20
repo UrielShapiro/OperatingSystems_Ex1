@@ -11,5 +11,8 @@ findPhone: findPhone.cpp
 clean:
 	rm -f add2PB findPhone
 
+clean_pb:
+	rm -f phonebook.txt
+
 .SUFFIXES:
-.PHONY: all clean
+.PHONY: all clean clean_pb
