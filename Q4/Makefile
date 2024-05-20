@@ -3,15 +3,15 @@ CXXFLAGS = -Wall -Wextra -ggdb -g
 GCOV_FLAGS = -fprofile-arcs -ftest-coverage
 LIB = libdijkstra
 MAIN = main
-TEST_MAIN = test
+TEST = Test
 DOCTEST_PATH = . # path to doctest.h is in the current directory
 
-all: $(MAIN) $(TEST_MAIN)
+all: $(MAIN) $(TEST)
 
 
 run:
 	make all
-	./$(TEST_MAIN)
+	./$(TEST)
 	gcov $(LIB).cpp
 	cat $(LIB).cpp.gcov
 	make clean
@@ -26,18 +26,16 @@ $(LIB).o: $(LIB).cpp $(LIB).hpp
 	$(CXX) $(GCOV_FLAGS) $(CXXFLAGS) -c -o $@ $<
 
 
-$(TEST_MAIN): Test.o TestMain.o $(LIB).o
+test: $(TEST)
+
+$(TEST): $(TEST).o $(LIB).o
 	$(CXX) $(CXXFLAGS) -o $@ $^ -lgcov
 
-Test.o: Test.cpp $(LIB).hpp
+$(TEST).o: $(TEST).cpp $(LIB).hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-TestMain.o: TestMain.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
 
 clean:
-	rm -f *.o *.so *.gcov *.gcda *.gcno $(MAIN) $(TEST_MAIN) run
+	rm -f *.o *.so *.gcov *.gcda *.gcno $(MAIN) $(TEST) run
 
 .SUFFIXES:
-.PHONY: all clean run
+.PHONY: all clean run test
