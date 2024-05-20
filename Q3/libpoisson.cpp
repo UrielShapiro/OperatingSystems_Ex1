@@ -2,7 +2,8 @@
 #include <cmath>
 #include <iostream>
 
-int factorial(int k)
+// a simple recursive function to calculate factorial of a natural number
+int factorial(unsigned int k)
 {
     if (k == 0)
     {
@@ -11,7 +12,8 @@ int factorial(int k)
     return k * factorial(k - 1);
 }
 
-long double poisson(int k, double lambda)
+long double poisson(unsigned int k, long double lambda)
 {
-    return (pow(lambda, k) * expf(-lambda)) / factorial(k);
+	// the Poisson distribution formula
+    return (powl(lambda, k) * expl(-lambda)) / factorial(k);
 }
