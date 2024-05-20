@@ -9,10 +9,6 @@ using std::vector;
 
 #define INFINITE INT_MAX
 
-/*
-A function that receives a graph represented as an adjacency matrix (line by line) and stores it in a 2D vector.
-The function checks if the input is valid and throws an exception if it is not.
-*/
 void input_graph(vector<vector<int>> &graph)
 {
     size_t mat_len = INFINITE;                 // Setting the length of the matrix to the maximum value before the first iteration
@@ -60,10 +56,7 @@ void input_graph(vector<vector<int>> &graph)
     }
 }
 
-/*
-    * A function to print the array which stores the shortest distance from the source to each vertex in the graph.
-    @return A string that contains the vertex and its distance from the source.
-*/
+
 std::string print_dists(vector<int> dist)
 {
     std::string output = "";
@@ -81,11 +74,7 @@ std::string print_dists(vector<int> dist)
     }
     return output; }
 
-/*
-    * A function to find the neighbor with the minimum distance from the source.
-    * Assuming that that neighbor was not visited yet.
-    * @return The index of the neighbor with the minimum distance from the source.
-*/
+
 int min_neighbor(vector<int> dist, vector<bool> converged)
 {
     int min = INFINITE; 
@@ -102,10 +91,7 @@ int min_neighbor(vector<int> dist, vector<bool> converged)
     return min_index; // Returning the index of the neighbor with the minimum distance from the source.
 }
 
-/*
-    * A function that checks if a vertex should be relaxed or not.
-    * @return True if the vertex should be relaxed, False otherwise.
-*/
+
 bool should_relax(int u, int v, int weight, vector<int> dist)
 {
     // If the vertex was visited (it's distance from the origin was updated)
@@ -118,11 +104,7 @@ bool should_relax(int u, int v, int weight, vector<int> dist)
     return false;
 }
 
-/*
-    * Function that implements Dijkstra's single source shortest path algorithm 
-    * for a graph represented using adjacency matrix
-    * @return A vector that stores the shortest distance from the source to each vertex in the graph.
-*/
+
 vector<int> dijkstra(vector<vector<int>> graph, int src)
 {
     vector<int> dist; // The output vector. dist[i] will hold the weight of the shortest path from src to vertex i

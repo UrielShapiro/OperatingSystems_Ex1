@@ -5,8 +5,8 @@
 using std::vector;
 
 /*
-Main function that receives a graph represented as an adjacency matrix and calculates
-the shortest path from the source (first vertex) to all other vertices.
+    * @brief Main function that receives a graph represented as an adjacency matrix and calculates
+    * the shortest path from the source (first vertex) to all other vertices.
 */
 int main()
 {
